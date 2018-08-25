@@ -1,0 +1,7 @@
+{
+  "name": "Digit Classifier"
+  "description": "A digit classifier using a convolution neural network.",
+  "repository": "https://github.com/r2dtu/digit_classifier",
+  "logo": "",
+  "keywords": ["MNIST", "digit", "CNN", "classifier", "neural"]
+}
