@@ -1,0 +1,24 @@
+{% include "base.html" %}
+
+{% block content %}
+
+<body onload="pencil()"/>
+<canvas id="paint" width="300" height="300" style="border: 5px solid #000000;">Update your browser to support HTML5 Canvas
+</canvas>
+
+<center>
+    <p>Directions: <br>
+        Draw a digit. Then click classify.
+        <br><br>
+        The number you drew is: <div id="output"></div>
+    </p>
+<button id="save" onclick="classify()">Classify!</button>
+<button id="resettool" onclick="reset()">Reset</button>
+</center>
+
+{% load staticfiles %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+<script src="http://code.jquery.com/jquery-3.3.1.js"></script>
+<script src="{% static 'js/script.js' %}"></script>
+
+{% endblock %}
