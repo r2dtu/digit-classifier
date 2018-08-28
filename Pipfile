@@ -10,6 +10,7 @@ requests = "*"
 tensorflow = "*"
 keras = "*"
 whitenoise = "*"
+pillow = "*"
 
 [requires]
 python_version = "3.6"
