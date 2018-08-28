@@ -30,7 +30,9 @@ SECRET_KEY = 'z7w8vwv!7lr8h!%*t-(1ii#_8z#ip=)4#pggph&opd+n$in-fv'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+	'digit-classify.herokuapp.com',
+]
 
 
 # Application definition
