@@ -7,6 +7,10 @@ var fill_value = true, stroke_value = false;
 var canvas_data = { "pencil": [] };
 ctx.lineWidth = 15;
 
+/**
+ * Function: reset()
+ * Description: Clears the drawing canvas.
+ */
 function reset() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     canvas_data = { "pencil": [] };
@@ -19,8 +23,6 @@ function pencil() {
     canvas.onmousedown = function (e){
         curX = e.clientX - canvas.offsetLeft;
         curY = e.clientY - canvas.offsetTop;
-//        console.log('CX: ' + e.clientX);
-//        console.log('CY: ' + e.clientY);
         hold = true;
         prevX = curX;
         prevY = curY;
@@ -32,10 +34,6 @@ function pencil() {
         if (hold) {
             curX = e.clientX - canvas.offsetLeft;
             curY = e.clientY - canvas.offsetTop;
-//            console.log('CX: ' + e.clientX);
-//            console.log('CY: ' + e.clientY);
-//            console.log('CL: ' + canvas.offsetLeft);
-//            console.log('CT: ' + canvas.offsetTop);
             draw();
         }
     };
@@ -57,8 +55,11 @@ function pencil() {
 }
 
 
-// Compute the center of mass of the handwritten digit
-// Note: 1 stands for black (0 - white) so we have to invert.
+/**
+ * Function: centerImage()
+ * Description: Compute the center of mass of the handwritten digit
+ * Note: 1 stands for black (0 - white) so we have to invert.
+ */
 function centerImage(img) {
     var meanX = 0;
     var meanY = 0;
@@ -80,8 +81,11 @@ function centerImage(img) {
     return { transX: dX, transY: dY };
 }
 
-// Given a gray-scale image, find the boundary rectangle
-// by above-threshold surrounding
+/** 
+ * Function: imageDataToGrayScale()
+ * Description: Given a gray-scale image, find the boundary rectangle 
+ * by above-threshold surrounding.
+ */
 function getBoundingRectangle(img, threshold) {
     var rows = img.length;
     var columns = img[0].length;
@@ -102,7 +106,10 @@ function getBoundingRectangle(img, threshold) {
     return { minY: minY, minX: minX, maxY: maxY, maxX: maxX};
 }
 
-// Convert an image to grayscale
+/** 
+ * Function: imageDataToGrayScale()
+ * Description: Convert an image to grayscale.
+ */
 function imageDataToGrayscale(imgData) {
     var grayscaleImg = [];
     for (var y = 0; y < imgData.height; y++) {
@@ -126,7 +133,11 @@ function imageDataToGrayscale(imgData) {
     return grayscaleImg;
 }
 
-function classify (){
+/** 
+ * Function: classify()
+ * Description: Classify a handwritten digit.
+ */
+function classify() {
 
     // CSRF stuff TODO!!!!!!!!!
 //    var csrftoken = getCookie('csrftoken');
@@ -143,9 +154,9 @@ function classify (){
     canvasCopy.width = imgData.width;
     canvasCopy.height = imgData.height;
     var copyCtx = canvasCopy.getContext("2d");
-    var brW = boundingRectangle.maxX+1-boundingRectangle.minX;
-    var brH = boundingRectangle.maxY+1-boundingRectangle.minY;
-    var scaling = 190 / (brW>brH?brW:brH);
+    var brW = boundingRectangle.maxX + 1 - boundingRectangle.minX;
+    var brH = boundingRectangle.maxY + 1 - boundingRectangle.minY;
+    var scaling = 190 / (brW > brH ? brW : brH);
     // scale
     copyCtx.translate(canvas.width/2, canvas.height/2);
     copyCtx.scale(scaling, scaling);
@@ -159,7 +170,7 @@ function classify (){
     imgData = copyCtx.getImageData(0, 0, 280, 280);
     grayscaleImg = imageDataToGrayscale(imgData);
 
-    // Create (1, 28, 28) matrix
+    // Create (1, 28, 28) matrix to be input to CNN
     var nnInput = new Array(28);
     for (var y = 0; y < 28; y++) {
       var nnInputTmp = new Array(28);
@@ -176,9 +187,7 @@ function classify (){
       nnInput[y] = nnInputTmp;
     }
 
-    console.log(nnInput);
-
-    // TODO Throw into CNN
+    // Throw into CNN - use POST
     $.ajax({
         type: 'post',
         url: '/',
@@ -188,8 +197,8 @@ function classify (){
             'imgMtx[]' : nnInput
         },
 
+        // Receive the output
         success: function(data){
-            console.log('Data: ' + data);
             $('#output').text(data);
         }
     });

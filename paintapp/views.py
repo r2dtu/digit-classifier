@@ -1,5 +1,4 @@
 # Create your views here.
-
 import re
 import io
 import base64
@@ -57,3 +56,4 @@ def paint(request):
         output = np.where(preds == np.max(preds))[0][0]
 
         return HttpResponse(output)
+
