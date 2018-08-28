@@ -1,7 +1,22 @@
 {
-  "name": "Digit Classifier"
-  "description": "A digit classifier using a convolution neural network.",
-  "repository": "https://github.com/r2dtu/digit_classifier",
-  "logo": "",
-  "keywords": ["MNIST", "digit", "CNN", "classifier", "neural"]
+  "name": "Digit Recognizer App",
+  "description": "CNN prediction of MNIST digit dataset",
+  "image": "heroku/python",
+  "repository": "https://github.com/r2dtu/digit-classifier",
+  "keywords": ["python", "django" ],
+  "addons": [ "heroku-postgresql" ],
+  "env": {
+    "SECRET_KEY": {
+      "description": "The secret key for the Django application.",
+      "generator": "secret"
+    }
+  },
+  "environments": {
+    "test": {
+      "scripts": {
+        "test-setup": "python manage.py collectstatic --noinput",
+        "test": "python manage.py test"
+      }
+    }
+  }
 }
